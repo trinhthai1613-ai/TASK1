@@ -1,152 +1,284 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>EduLearn – Đăng nhập</title>
-  <meta name="description" content="Đăng nhập vào EduLearn – nền tảng học trực tuyến đơn giản và hiệu quả."/>
+  <title>Management System</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
   <style>
-    body {
-      background-color: #f0f4f8;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    body { font-family: 'Segoe UI', sans-serif; }
+
+    /* ── Navbar ── */
+    .navbar {
+      background-color: #1a2e4a !important;
+      padding: 14px 0;
     }
-    .login-card {
-      max-width: 420px;
-      width: 100%;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.10);
-    }
-    .login-header {
-      background-color: #2563eb;
-      color: white;
-      border-radius: 12px 12px 0 0;
-      padding: 28px 32px 20px;
-      text-align: center;
-    }
-    .login-header h1 {
-      font-size: 1.8rem;
+    .navbar-brand {
+      color: white !important;
       font-weight: 700;
-      margin-bottom: 4px;
+      font-size: 1.1rem;
+      letter-spacing: 0.3px;
     }
-    .login-header p {
-      font-size: 0.9rem;
-      opacity: 0.85;
-      margin: 0;
+    .nav-link { color: rgba(255,255,255,0.85) !important; font-size: 0.9rem; }
+    .nav-link:hover { color: white !important; }
+    .dropdown-menu { border-radius: 8px; font-size: 0.9rem; }
+
+    /* ── Carousel ── */
+    #heroCarousel { height: 420px; }
+    .carousel-item {
+      height: 420px;
+      position: relative;
     }
-    .login-body {
-      background: white;
-      padding: 28px 32px 32px;
-      border-radius: 0 0 12px 12px;
-    }
-    .btn-login {
-      background-color: #2563eb;
-      border: none;
+    .carousel-item img {
       width: 100%;
-      padding: 10px;
-      font-size: 1rem;
-      font-weight: 600;
+      height: 420px;
+      object-fit: cover;
+      filter: brightness(0.45);
     }
-    .btn-login:hover {
-      background-color: #1d4ed8;
+    .carousel-caption {
+      left: 8%;
+      right: auto;
+      text-align: left;
+      bottom: 50%;
+      transform: translateY(50%);
     }
-    .hint-box {
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-size: 0.82rem;
-      color: #1e40af;
+    .carousel-caption .tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 8px;
     }
-    .alert-danger-custom {
+    .carousel-caption h2 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1.15;
+      color: white;
+      margin-bottom: 14px;
+    }
+    .carousel-caption p {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.8);
+      max-width: 420px;
+      margin-bottom: 24px;
+    }
+    .btn-carousel {
+      background-color: #4a6cf7;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      padding: 10px 22px;
       font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-carousel:hover { background-color: #3a5ce5; color: white; }
+    .carousel-indicators [data-bs-target] {
+      width: 28px; height: 4px; border-radius: 2px;
+      background-color: rgba(255,255,255,0.5);
+    }
+    .carousel-indicators .active { background-color: white; }
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon { filter: invert(0); }
+
+    /* ── Goal Section ── */
+    .section-goal { background-color: #f0f5fb; padding: 72px 0; }
+    .tag-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #4a6cf7;
+      margin-bottom: 10px;
+    }
+    .section-goal h2 { font-size: 2rem; font-weight: 800; color: #111827; margin-bottom: 16px; }
+    .section-goal p.desc { color: #4b5563; font-size: 0.95rem; line-height: 1.75; margin-bottom: 24px; }
+    .section-goal img { border-radius: 10px; width: 100%; height: 260px; object-fit: cover; }
+
+    .feature-card {
+      background: white;
+      border-radius: 10px;
+      padding: 18px 16px;
+      border: 1px solid #e5e7eb;
+      height: 100%;
+    }
+    .feature-icon {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+    }
+    .feature-card h6 { font-weight: 700; font-size: 0.95rem; color: #111827; margin-bottom: 4px; }
+    .feature-card p  { font-size: 0.82rem; color: #6b7280; margin: 0; }
+
+    /* ── CTA Section ── */
+    .section-cta {
+      background-color: #f0f5fb;
+      padding: 60px 0;
+      text-align: center;
+      border-top: 1px solid #dde5f0;
+    }
+    .section-cta h3 { font-size: 1.7rem; font-weight: 800; color: #111827; margin-bottom: 10px; }
+    .section-cta p  { color: #6b7280; font-size: 0.95rem; margin-bottom: 24px; }
+    .btn-cta {
+      background-color: #4a6cf7;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      padding: 10px 28px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+    }
+    .btn-cta:hover { background-color: #3a5ce5; color: white; }
+
+    footer {
+      background-color: #1a2e4a;
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 16px;
+      font-size: 0.82rem;
     }
   </style>
 </head>
 <body>
-  <div class="login-card">
-    <div class="login-header">
-      <h1><i class="bi bi-mortarboard-fill me-2"></i>EduLearn</h1>
-      <p>Nền tảng học trực tuyến</p>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand" href="index.html">Management System</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown">
+            Home
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="index.html">Landing Page</a></li>
+            <li><a class="dropdown-item" href="home.html">Dashboard</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="login.html">Login</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-    <div class="login-body">
-      <div id="errorMsg" class="alert alert-danger alert-danger-custom d-none" role="alert">
-        <i class="bi bi-exclamation-triangle me-1"></i> Sai tên đăng nhập hoặc mật khẩu!
+  </div>
+</nav>
+
+<!-- Carousel -->
+<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+  </div>
+  <div class="carousel-inner">
+    <!-- Slide 1 -->
+    <div class="carousel-item active">
+      <img src="resources/photo-1497366811353-6870744d04b2.avif" alt="Work Smarter"/>
+      <div class="carousel-caption">
+        <p class="tag">Work Smarter</p>
+        <h2>Achieve Your Goals</h2>
+        <p>Track progress, manage information, and improve productivity with a clear and organized workflow.</p>
+        <a href="login.html" class="btn-carousel">Login Now →</a>
       </div>
-
-      <form id="loginForm" novalidate>
-        <div class="mb-3">
-          <label for="username" class="form-label fw-semibold">Tên đăng nhập</label>
-          <div class="input-group">
-            <span class="input-group-text"><i class="bi bi-person"></i></span>
-            <input type="text" class="form-control" id="username" placeholder="Nhập tên đăng nhập" autocomplete="username" required/>
-          </div>
-        </div>
-        <div class="mb-4">
-          <label for="password" class="form-label fw-semibold">Mật khẩu</label>
-          <div class="input-group">
-            <span class="input-group-text"><i class="bi bi-lock"></i></span>
-            <input type="password" class="form-control" id="password" placeholder="Nhập mật khẩu" autocomplete="current-password" required/>
-            <button class="btn btn-outline-secondary" type="button" id="togglePass" tabindex="-1">
-              <i class="bi bi-eye" id="eyeIcon"></i>
-            </button>
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary btn-login">
-          <i class="bi bi-box-arrow-in-right me-1"></i> Đăng nhập
-        </button>
-      </form>
-
-      <div class="hint-box mt-4">
-        <strong><i class="bi bi-info-circle me-1"></i>Tài khoản thử:</strong><br/>
-        👤 <code>admin</code> / 🔑 <code>admin123</code><br/>
-        👤 <code>student</code> / 🔑 <code>123456</code>
+    </div>
+    <!-- Slide 2 -->
+    <div class="carousel-item">
+      <img src="resources/photo-1521737711867-e3b97375f902.avif" alt="Work Together"/>
+      <div class="carousel-caption">
+        <p class="tag">Work Together</p>
+        <h2>Better Team<br>Collaboration</h2>
+        <p>Keep your team connected, organize responsibilities, and manage tasks in one convenient place.</p>
+        <a href="login.html" class="btn-carousel">Join Us →</a>
+      </div>
+    </div>
+    <!-- Slide 3 -->
+    <div class="carousel-item">
+      <img src="resources/photo-1454165804606-c3d57bc86b40.avif" alt="Stay Organized"/>
+      <div class="carousel-caption">
+        <p class="tag">Stay Organized</p>
+        <h2>All Your Work<br>In One Place</h2>
+        <p>Simplify your workflow, boost efficiency, and focus on what matters most every single day.</p>
+        <a href="login.html" class="btn-carousel">Get Started →</a>
       </div>
     </div>
   </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Tài khoản hardcode
-    const ACCOUNTS = [
-      { username: 'admin',   password: 'admin123', role: 'Giáo viên', name: 'Nguyễn Quản Trị' },
-      { username: 'student', password: '123456',   role: 'Học sinh',  name: 'Trần Văn Học'   }
-    ];
+<!-- Goal Section -->
+<section class="section-goal">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <!-- Left: image -->
+      <div class="col-md-5">
+        <img src="resources/photo-1497366754035-f200968a6e72.avif" alt="Our Goal"/>
+      </div>
+      <!-- Right: content -->
+      <div class="col-md-7">
+        <p class="tag-label">Our Goal</p>
+        <h2>Goal of This Website</h2>
+        <p class="desc">
+          Our goal is to provide a simple, secure, and efficient management system that
+          helps users organize their work, manage information, track progress, and improve
+          productivity — all in one place.
+        </p>
+        <div class="row g-3">
+          <div class="col-6">
+            <div class="feature-card">
+              <div class="feature-icon">👥</div>
+              <h6>Easy to Use</h6>
+              <p>A simple and clear interface for every user.</p>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="feature-card">
+              <div class="feature-icon">🔒</div>
+              <h6>Secure</h6>
+              <p>Keep information protected with appropriate security.</p>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="feature-card">
+              <div class="feature-icon">⚡</div>
+              <h6>Efficient</h6>
+              <p>Save time by keeping tasks and information organized.</p>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="feature-card">
+              <div class="feature-icon">📈</div>
+              <h6>Better Productivity</h6>
+              <p>Track progress and work toward your goals.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    // Nếu đã đăng nhập thì chuyển thẳng sang home
-    if (sessionStorage.getItem('edulearn_user')) {
-      window.location.href = 'home.html';
-    }
+<!-- CTA Section -->
+<section class="section-cta">
+  <div class="container">
+    <h3>Ready to Get Started?</h3>
+    <p>Join us today and start organizing your work.</p>
+    <a href="login.html" class="btn-cta">Create an Account</a>
+  </div>
+</section>
 
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const un = document.getElementById('username').value.trim();
-      const pw = document.getElementById('password').value;
-      const found = ACCOUNTS.find(a => a.username === un && a.password === pw);
-      if (found) {
-        sessionStorage.setItem('edulearn_user', JSON.stringify(found));
-        window.location.href = 'home.html';
-      } else {
-        document.getElementById('errorMsg').classList.remove('d-none');
-      }
-    });
+<footer>&copy; My Website. All rights reserved.</footer>
 
-    // Toggle show/hide password
-    document.getElementById('togglePass').addEventListener('click', function() {
-      const pw = document.getElementById('password');
-      const icon = document.getElementById('eyeIcon');
-      if (pw.type === 'password') {
-        pw.type = 'text';
-        icon.className = 'bi bi-eye-slash';
-      } else {
-        pw.type = 'password';
-        icon.className = 'bi bi-eye';
-      }
-    });
-  </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
