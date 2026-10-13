@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lập trình Web – EduLearn</title>
+  <meta name="description" content="Học lập trình Web với HTML, CSS, JavaScript trên EduLearn."/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+  <style>
+    body { background-color: #f8fafc; }
+    .navbar { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .navbar-brand { font-weight: 700; }
+
+    .course-hero {
+      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      color: white;
+      padding: 40px 0;
+    }
+    .course-hero img {
+      border-radius: 10px;
+      max-height: 220px;
+      object-fit: cover;
+      width: 100%;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    }
+
+    /* Sidebar */
+    .lesson-list .list-group-item {
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.15s;
+    }
+    .lesson-list .list-group-item:hover,
+    .lesson-list .list-group-item.active {
+      border-left-color: #2563eb;
+      background-color: #eff6ff;
+      color: #1d4ed8;
+    }
+    .lesson-list .list-group-item.active { font-weight: 600; }
+    .lesson-list .list-group-item.done .bi-check-circle-fill { color: #16a34a; }
+
+    /* Content */
+    .content-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      padding: 28px;
+    }
+    .lesson-title { font-size: 1.3rem; font-weight: 700; }
+    .lesson-content p  { color: #374151; line-height: 1.75; }
+    .lesson-content pre {
+      background: #f1f5f9;
+      border-radius: 6px;
+      padding: 14px;
+      font-size: 0.85rem;
+    }
+    .lesson-content ul { color: #374151; }
+    .nav-btns .btn { min-width: 120px; }
+    .progress { height: 8px; border-radius: 4px; }
+    footer { background-color: #1e293b; color: #94a3b8; padding: 16px 0; font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="home.html"><i class="bi bi-mortarboard-fill me-2"></i>EduLearn</a>
+    <div class="ms-auto d-flex gap-2 align-items-center">
+      <span class="text-white-50 small d-none d-md-inline" id="welcomeMsg"></span>
+      <a href="home.html" class="btn btn-outline-light btn-sm"><i class="bi bi-arrow-left me-1"></i>Quay lại</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="course-hero">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-md-7">
+        <span class="badge bg-white text-primary mb-2">Công nghệ</span>
+        <h1 class="fw-bold mb-2">Lập trình Web</h1>
+        <p class="mb-3" style="opacity:.9">Học HTML, CSS, JavaScript từ cơ bản đến thực tiễn. Xây dựng giao diện web hoàn chỉnh.</p>
+        <div class="d-flex gap-3 flex-wrap small">
+          <span><i class="bi bi-file-earmark-text me-1"></i>8 bài học</span>
+          <span><i class="bi bi-clock me-1"></i>16 giờ</span>
+          <span><i class="bi bi-bar-chart me-1"></i>Cơ bản</span>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <img src="resources/photo-1454165804606-c3d57bc86b40.avif" alt="Lập trình Web"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container my-4">
+  <!-- Progress -->
+  <div class="mb-3">
+    <div class="d-flex justify-content-between small text-muted mb-1">
+      <span>Tiến độ học</span>
+      <span id="progressText">0 / 8 bài</span>
+    </div>
+    <div class="progress"><div class="progress-bar bg-primary" id="progressBar" style="width:0%"></div></div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Sidebar -->
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-primary text-white fw-semibold py-2">
+          <i class="bi bi-list-ul me-1"></i>Danh sách bài học
+        </div>
+        <div class="list-group list-group-flush lesson-list" id="lessonList">
+          <!-- JS sẽ render -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="col-md-8">
+      <div class="content-card lesson-content" id="lessonContent">
+        <!-- JS sẽ render -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="mt-5">
+  <div class="container text-center">
+    <p class="mb-0"><i class="bi bi-mortarboard-fill me-1"></i><strong class="text-white">EduLearn</strong> &copy; 2024</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const userJson = sessionStorage.getItem('edulearn_user');
+  if (!userJson) { window.location.href = 'index.html'; }
+  else {
+    const u = JSON.parse(userJson);
+    document.getElementById('welcomeMsg').textContent = '👋 ' + u.name;
+  }
+
+  const LESSONS = [
+    {
+      title: 'Bài 1: Giới thiệu HTML',
+      content: `
+        <h2 class="lesson-title mb-3"><i class="bi bi-code-slash text-primary me-2"></i>Giới thiệu HTML</h2>
+        <p>HTML (HyperText Markup Language) là ngôn ngữ đánh dấu tiêu chuẩn để tạo trang web. Trình duyệt đọc file HTML và hiển thị nội dung ra màn hình.</p>
+        <h6 class="fw-bold mt-3">Cấu trúc cơ bản:</h6>
+        <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="vi"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Trang của tôi&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Xin chào thế giới!&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+        <h6 class="fw-bold mt-3">Các thẻ cơ bản:</h6>
+        <ul>
+          <li><code>&lt;h1&gt;–&lt;h6&gt;</code>: Tiêu đề</li>
+          <li><code>&lt;p&gt;</code>: Đoạn văn bản</li>
+          <li><code>&lt;a href="..."&gt;</code>: Liên kết</li>
+          <li><code>&lt;img src="..."&gt;</code>: Hình ảnh</li>
+          <li><code>&lt;div&gt;</code>: Khối chứa</li>
+        </ul>`
+    },
+    {
+      title: 'Bài 2: Các thẻ HTML thông dụng',
+      content: `
+        <h2 class="lesson-title mb-3"><i class="bi bi-layout-text-sidebar text-primary me-2"></i>Các thẻ HTML thông dụng</h2>
+        <p>HTML có rất nhiều thẻ phục vụ các mục đích khác nhau. Dưới đây là những thẻ hay dùng nhất.</p>
+        <h6 class="fw-bold mt-3">Danh sách (List):</h6>
+        <pre>&lt;ul&gt;  &lt;!-- Danh sách không thứ tự --&gt;
+  &lt;li&gt;Mục 1&lt;/li&gt;
+  &lt;li&gt;Mục 2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;  &lt;!-- Danh sách có thứ tự --&gt;
+  &lt;li&gt;Bước 1&lt;/li&gt;
+  &lt;li&gt;Bước 2&lt;/li&gt;
+&lt;/ol&gt;</pre>
+        <h6 class="fw-bold mt-3">Bảng (Table):</h6>
+        <pre>&lt;table&gt;
+  &lt;tr&gt;&lt;th&gt;Tên&lt;/th&gt;&lt;th&gt;Điểm&lt;/th&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;An&lt;/td&gt;&lt;td&gt;9&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</pre>
+        <h6 class="fw-bold mt-3">Form nhập liệu:</h6>
+        <pre>&lt;form&gt;
+  &lt;input type="text" placeholder="Họ tên"&gt;
+  &lt;input type="email" placeholder="Email"&gt;
+  &lt;button type="submit"&gt;Gửi&lt;/button&gt;
+&lt;/form&gt;</pre>`
+    },
+    {
+      title: 'Bài 3: Giới thiệu CSS',
+      content: `
+        <h2 class="lesson-title mb-3"><i class="bi bi-palette text-primary me-2"></i>Giới thiệu CSS</h2>
+        <p>CSS (Cascading Style Sheets) dùng để định kiểu và trang trí giao diện HTML. CSS giúp trang web trở nên đẹp và chuyên nghiệp hơn.</p>
+        <h6 class="fw-bold mt-3">Cú pháp CSS:</h6>
+        <pre>selector {
+  thuộc-tính: giá-trị;
+}
+
+/* Ví dụ */
+h1 {
+  color: blue;
+  font-size: 2rem;
+  text-align: center;
+}</pre>
+        <h6 class="fw-bold mt-3">3 cách thêm CSS:</h6>
+        <ul>
+          <li><strong>Inline:</strong> <code>&lt;p style="color:red"&gt;</code></li>
+          <li><strong>Internal:</strong> Thẻ <code>&lt;style&gt;</code> trong <code>&lt;head&gt;</code></li>
+          <li><strong>External:</strong> File <code>.css</code> riêng biệt (khuyến nghị)</li>
+        </ul>
+        <h6 class="fw-bold mt-3">Box Model:</h6>
+        <pre>div {
+  margin: 10px;    /* Khoảng ngoài */
+  border: 1px solid #ccc;
+  padding: 16px;   /* Khoảng trong */
+  width: 300px;
+}</pre>`
+    },
+    {
+      title: 'Bài 4: CSS Flexbox',
+      content: `
+        <h2 class="lesson-title mb-3"><i class="bi bi-grid text-primary me-2"></i>CSS Flexbox</h2>
+        <p>Flexbox là mô hình bố cục mạnh mẽ giúp căn chỉnh và phân bố không gian các phần tử trong container một cách linh hoạt.</p>
+        <h6 class="fw-bold mt-3">Khai báo Flex Container:</h6>
+        <pre>.container {
+  display: flex;
+  justify-content: center;  /* Căn ngang */
+  align-items: center;      /* Căn dọc */
+  gap: 16px;                /* Khoảng cách giữa items */
+  flex-wrap: wrap;          /* Xuống dòng nếu tràn */
+}</pre>
+        <h6 class="fw-bold mt-3">Các giá trị justify-content:</h6>
+        <ul>
+          <li><code>flex-start</code>: Căn trái</li>
+          <li><code>flex-end</code>: Căn phải</li>
+          <li><code>center</code>: Căn giữa</li>
+          <li><code>space-between</code>: Dàn đều, sát mép</li>
+          <li><code>space-around</code>: Dàn đều, có khoảng</li>
+        </ul>`
+    },
+    {
+      title: 'Bài 5: JavaScript Cơ bản',
+      content: `
+        <h2 class="lesson-title mb-3"><i class="bi bi-lightning text-primary me-2"></i>JavaScript Cơ bản</h2>
+        <p>JavaScript (JS) là ngôn ngữ lập trình chạy trên trình duyệt, giúp trang web tương tác và động hơn.</p>
+        <h6 class="fw-bold mt-3">Biến và kiểu dữ liệu:</h6>
+        <pre>let ten = "Nguyễn An";   // String
+let tuoi = 20;           // Number
+let hocGioi = true;      // Boolean
+const PI = 3.14;         // Hằng số</pre>
+        <h6 class="fw-bold mt-3">Điều kiện và vòng lặp:</h6>
+        <pre>if (tuoi >= 18) {
+  console.log("Đủ tuổi");
+} else {
+  console.log("Chưa đủ tuổi");
+}
+
+for (let i = 1; i <= 5; i++) {
+  console.log("Lần " + i);
+}</pre>
+        <h6 class="fw-bold mt-3">Hàm (Function):</h6>
+        <pre>function chao(ten) {
+  return "Xin chào, " + ten + "!";
+}
+console.log(chao("An")); // Xin chào, An!</pre>`
+    },
+    {
+      title: 'Bài 6: DOM & Sự kiện',
+      content: `
+        <h2 class="lesson-title mb-3"><i class="bi bi-cursor text-primary me-2"></i>DOM & Sự kiện</h2>
+        <p>DOM (Document Object Model) cho phép JavaScript truy cập và thay đổi nội dung, cấu trúc, style của trang HTML.</p>
+        <h6 class="fw-bold mt-3">Truy cập phần tử:</h6>
+        <pre>const btn = document.getElementById('myBtn');
+const items = document.querySelectorAll('.item');
+const title = document.querySelector('h1');</pre>
+        <h6 class="fw-bold mt-3">Thay đổi nội dung:</h6>
+        <pre>// Thay đổi text
+title.textContent = "Tiêu đề mới";
+
+// Thay đổi HTML
+div.innerHTML = "&lt;b&gt;In đậm&lt;/b&gt;";
+
+// Thay đổi style
+btn.style.backgroundColor = "blue";</pre>
+        <h6 class="fw-bold mt-3">Xử lý sự kiện:</h6>
+        <pre>btn.addEventListener('click', function() {
+  alert('Bạn vừa nhấn nút!');
+});
+
+input.addEventListener('input', function(e) {
+  console.log(e.target.value);
+});</pre>`
+    },
+    {
+      title: 'Bài 7: Bootstrap Framework',
+      content: `
+        <h2 class="lesson-title mb-3"><i class="bi bi-bootstrap text-primary me-2"></i>Bootstrap Framework</h2>
+        <p>Bootstrap là thư viện CSS/JS phổ biến nhất, giúp xây dựng giao diện responsive nhanh chóng mà không cần viết nhiều CSS từ đầu.</p>
+        <h6 class="fw-bold mt-3">Thêm Bootstrap vào dự án:</h6>
+        <pre>&lt;link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"&gt;
+&lt;script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"&gt;
+&lt;/script&gt;</pre>
+        <h6 class="fw-bold mt-3">Grid System:</h6>
+        <pre>&lt;div class="container"&gt;
+  &lt;div class="row"&gt;
+    &lt;div class="col-md-4"&gt;Cột 1&lt;/div&gt;
+    &lt;div class="col-md-4"&gt;Cột 2&lt;/div&gt;
+    &lt;div class="col-md-4"&gt;Cột 3&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+        <h6 class="fw-bold mt-3">Các class tiện ích:</h6>
+        <ul>
+          <li><code>d-flex</code>, <code>justify-content-center</code>: Flexbox</li>
+          <li><code>mt-3</code>, <code>px-4</code>: Margin/Padding</li>
+          <li><code>text-primary</code>, <code>bg-success</code>: Màu sắc</li>
+          <li><code>btn btn-primary</code>: Nút bấm</li>
+        </ul>`
+    },
+    {
+      title: 'Bài 8: Dự án cuối khóa',
+      content: `
+        <h2 class="lesson-title mb-3"><i class="bi bi-trophy text-warning me-2"></i>Dự án cuối khóa</h2>
+        <p>Chúc mừng! Bạn đã hoàn thành tất cả bài học lập trình web. Hãy áp dụng kiến thức để xây dựng dự án cá nhân!</p>
+        <h6 class="fw-bold mt-3">Gợi ý dự án:</h6>
+        <ul>
+          <li>🌐 Trang web giới thiệu bản thân (Portfolio)</li>
+          <li>📝 Ứng dụng To-do List</li>
+          <li>🌤 App hiển thị thời tiết (dùng API)</li>
+          <li>🛒 Trang sản phẩm đơn giản</li>
+        </ul>
+        <h6 class="fw-bold mt-3">Checklist dự án:</h6>
+        <ul>
+          <li>✅ Sử dụng HTML đúng cấu trúc ngữ nghĩa</li>
+          <li>✅ CSS responsive với Flexbox / Bootstrap Grid</li>
+          <li>✅ JavaScript xử lý ít nhất 1 tính năng tương tác</li>
+          <li>✅ Đẩy code lên GitHub</li>
+        </ul>
+        <div class="alert alert-success mt-3">
+          <i class="bi bi-award-fill me-2"></i><strong>Bạn đã hoàn thành khóa học Lập trình Web!</strong>
+          Hãy tiếp tục học hỏi và thực hành để trở thành lập trình viên giỏi!
+        </div>`
+    }
+  ];
+
+  const STORAGE_KEY = 'edulearn_web_progress';
+  let completed = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  let currentIdx = 0;
+
+  function renderSidebar() {
+    const list = document.getElementById('lessonList');
+    list.innerHTML = '';
+    LESSONS.forEach((l, i) => {
+      const done = completed.includes(i);
+      const active = i === currentIdx;
+      const item = document.createElement('a');
+      item.href = '#';
+      item.className = 'list-group-item list-group-item-action py-2 px-3 small' +
+        (active ? ' active' : '') + (done ? ' done' : '');
+      item.innerHTML = `<i class="bi ${done ? 'bi-check-circle-fill text-success' : 'bi-circle'} me-2"></i>${l.title}`;
+      item.addEventListener('click', function(e) { e.preventDefault(); loadLesson(i); });
+      list.appendChild(item);
+    });
+    updateProgress();
+  }
+
+  function renderContent(idx) {
+    const done = completed.includes(idx);
+    document.getElementById('lessonContent').innerHTML = LESSONS[idx].content + `
+      <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top nav-btns flex-wrap gap-2">
+        <button class="btn btn-outline-secondary btn-sm" id="prevBtn" ${idx === 0 ? 'disabled' : ''}>
+          <i class="bi bi-arrow-left me-1"></i>Bài trước
+        </button>
+        <button class="btn ${done ? 'btn-success' : 'btn-primary'} btn-sm" id="doneBtn">
+          <i class="bi ${done ? 'bi-check-lg' : 'bi-check2'} me-1"></i>${done ? 'Đã hoàn thành' : 'Đánh dấu hoàn thành'}
+        </button>
+        <button class="btn btn-outline-secondary btn-sm" id="nextBtn" ${idx === LESSONS.length - 1 ? 'disabled' : ''}>
+          Bài tiếp<i class="bi bi-arrow-right ms-1"></i>
+        </button>
+      </div>`;
+
+    document.getElementById('prevBtn').addEventListener('click', () => loadLesson(idx - 1));
+    document.getElementById('nextBtn').addEventListener('click', () => loadLesson(idx + 1));
+    document.getElementById('doneBtn').addEventListener('click', () => markDone(idx));
+  }
+
+  function loadLesson(idx) {
+    currentIdx = idx;
+    renderSidebar();
+    renderContent(idx);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function markDone(idx) {
+    if (!completed.includes(idx)) {
+      completed.push(idx);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(completed));
+    }
+    renderSidebar();
+    renderContent(idx);
+  }
+
+  function updateProgress() {
+    const pct = Math.round(completed.length / LESSONS.length * 100);
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressText').textContent = completed.length + ' / ' + LESSONS.length + ' bài';
+  }
+
+  loadLesson(0);
+</script>
+</body>
+</html>
